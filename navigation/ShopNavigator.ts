@@ -3,16 +3,15 @@ import { Platform } from 'react-native';
 import { createAppContainer } from 'react-navigation';
 
 import ProductsOverviewScreen from './../screens/shop/ProductsOverviewScreen';
+import ProductDetailScreen from '../screens/shop/product-detail-screen/ProductDetailScreen';
 import Colors from './../constants/Colors';
-
-export enum ROUTES {
-	ProductsOverviewScreen = 'ProductsOverviewScreen'
-}
+import { ROUTES } from './routes';
 
 const isAndroid = Platform.OS === 'android';
 
 const ProductsNavigator = createStackNavigator({
-	[ROUTES.ProductsOverviewScreen]: ProductsOverviewScreen
+	[ROUTES.ProductsOverview]: ProductsOverviewScreen,
+	[ROUTES.PrductDetail]: ProductDetailScreen
 }, {
 	defaultNavigationOptions: {
 		headerStyle: {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, Button } from 'react-native';
 
-import { ProductItemProps } from './ProductItem.model';
+import { ProductItemProps } from './productDetailItem.model';
 import Colors from './../../../constants/Colors';
 
 const ProductItem = (props: ProductItemProps) => {
