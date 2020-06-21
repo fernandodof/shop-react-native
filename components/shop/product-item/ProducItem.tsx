@@ -1,23 +1,42 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, Button } from 'react-native';
+import {
+	View,
+	Text,
+	StyleSheet,
+	Image,
+	Button,
+	TouchableOpacity,
+	TouchableNativeFeedback,
+	Platform
+} from 'react-native';
 
 import { ProductItemProps } from './productDetailItem.model';
 import Colors from './../../../constants/Colors';
 
 const ProductItem = (props: ProductItemProps) => {
-	return <View style={styles.product}>
-		<View style={styles.imageContainer}>
-			<Image source={{ uri: props.imageUrl }} style={styles.image}></Image>
+	const TouchableComp: any = Platform.OS === 'android' && Platform.Version ? TouchableNativeFeedback : TouchableOpacity;
+
+	return (
+		<View style={styles.product}>
+			<View style={styles.touchable}>
+				<TouchableComp onPress={() => props.onViewDetail()} useForeground>
+					<View>
+						<View style={styles.imageContainer}>
+							<Image source={{ uri: props.imageUrl }} style={styles.image}></Image>
+						</View>
+						<View style={styles.details}>
+							<Text style={styles.title}>{props.title}</Text>
+							<Text style={styles.price}>${props.price.toFixed(2)}</Text>
+						</View>
+						<View style={styles.actions}>
+							<Button color={Colors.primary} title="View Details" onPress={() => props.onViewDetail()}></Button>
+							<Button color={Colors.primary} title="To cart" onPress={() => props.onAddToCard()}></Button>
+						</View>
+					</View>
+				</TouchableComp>
+			</View>
 		</View>
-		<View style={styles.details}>
-			<Text style={styles.title}>{props.title}</Text>
-			<Text style={styles.price}>${props.price.toFixed(2)}</Text>
-		</View>
-		<View style={styles.actions}>
-			<Button color={Colors.primary} title="View Details" onPress={() => props.onViewDetail()}></Button>
-			<Button color={Colors.primary} title="To cart" onPress={() => props.onAddToCard()}></Button>
-		</View>
-	</View>;
+	);
 };
 
 const styles = StyleSheet.create({
@@ -31,6 +50,10 @@ const styles = StyleSheet.create({
 		backgroundColor: 'white',
 		height: 300,
 		margin: 20
+	},
+	touchable: {
+		overflow: 'hidden',
+		borderRadius: 10
 	},
 	imageContainer: {
 		width: '100%',
