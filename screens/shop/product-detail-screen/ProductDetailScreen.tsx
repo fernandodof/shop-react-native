@@ -44,12 +44,14 @@ const styles = StyleSheet.create({
 		fontSize: 22,
 		color: '#800',
 		marginVertical: 20,
-		textAlign: 'center'
+		textAlign: 'center',
+		fontFamily: 'open-sans-bold'
 	},
 	description: {
 		fontSize: 16,
 		textAlign: 'center',
-		marginHorizontal: 20
+		marginHorizontal: 20,
+		fontFamily: 'open-sans'
 	}
 });
 
