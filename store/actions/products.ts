@@ -1,4 +1,4 @@
-import { Product } from "../../models/product";
+import Product from "../../models/product";
 
 export const ADD_PRODUCT = '[PRODUCT] Add';
 

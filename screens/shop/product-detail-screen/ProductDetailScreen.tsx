@@ -2,14 +2,16 @@ import React from 'react';
 import { Text, Image, Button, StyleSheet, ScrollView, View } from 'react-native';
 
 import { ProductDetailItemScreenProps } from './procuctDetail.model';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { NavigationStackScreenComponent } from 'react-navigation-stack';
 
 import { RootState } from '../../../store';
 import Colors from '../../../constants/Colors';
+import * as cartActions from '../../../store/actions/cart';
 
 const ProductDetailScreen: NavigationStackScreenComponent = (props: ProductDetailItemScreenProps) => {
 	const productId = props.navigation.getParam('productId');
+	const dispath = useDispatch();
 
 	const selectedProduct = useSelector((state: RootState) => state.products.availableProducts.find(product => product.id === productId));
 
@@ -17,7 +19,7 @@ const ProductDetailScreen: NavigationStackScreenComponent = (props: ProductDetai
 		<ScrollView>
 			<Image style={styles.image} source={{ uri: selectedProduct?.imageUrl }}></Image>
 			<View style={styles.actions}>
-				<Button color={Colors.primary} title="Add to cart" onPress={() => { }}></Button>
+				<Button color={Colors.primary} title="Add to cart" onPress={() => { dispath(cartActions.addToCart(selectedProduct!)) }}></Button>
 			</View>
 			<Text style={styles.price}>${selectedProduct?.price.toFixed(2)}</Text>
 			<Text style={styles.description}>{selectedProduct?.description}</Text>

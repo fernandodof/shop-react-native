@@ -1,5 +1,4 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
 import { Provider } from 'react-redux';
 import { AppLoading } from 'expo';
 import { useFonts } from '@use-expo/font';
