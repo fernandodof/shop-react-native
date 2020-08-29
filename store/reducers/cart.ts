@@ -32,7 +32,8 @@ export function cartReducer(state = initialState, action: CartActionTypes): Cart
 				updatedOrNewCartItem.sum += addedProduct.price;
 			} else {
 				updatedOrNewCartItem = {
-					productDescription: addedProduct.description,
+					productId: addedProduct.id,
+					productTitle: addedProduct.title,
 					productPrice: addedProduct.price,
 					quantity: 1,
 					sum: 1 * addedProduct.price
