@@ -1,15 +1,18 @@
 import * as React from 'react';
 import { View, Text, FlatList, Button, StyleSheet } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { RootState } from '../../store';
 import Colors from '../../constants/Colors';
 import { NavigationStackScreenComponent } from 'react-navigation-stack';
 import CartItem from '../../components/shop/cart-item/CartItem';
+import * as cartActions from '../../store/actions/cart';
 
 const CartScreen: NavigationStackScreenComponent = props => {
 	const cartTotalAmount = useSelector((state: RootState) => state.cart.totalAmount);
 	const cartItems = useSelector((state: RootState) => Object.values(state.cart.items));
+
+	const dispatch = useDispatch();
 
 	return <View style={styles.screen}>
 		<View style={styles.summary}>
@@ -18,7 +21,7 @@ const CartScreen: NavigationStackScreenComponent = props => {
 		</View>
 		<FlatList data={cartItems}
 			keyExtractor={item => item.productId}
-			renderItem={itemData => <CartItem {...{ ...itemData.item, onRemove: () => { } }} ></CartItem>}>
+			renderItem={itemData => <CartItem {...{ ...itemData.item, onRemove: () => { dispatch(cartActions.removeFromCart(itemData.item.productId)) } }} ></CartItem>}>
 		</FlatList>
 	</View>;
 };

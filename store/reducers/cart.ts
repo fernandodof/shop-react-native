@@ -1,6 +1,7 @@
 import Product from '../../models/product';
 import { CartItem } from '../../models/cart';
-import { CartActionTypes, ADD_TO_CART } from '../actions/cart';
+import { CartActionTypes, ADD_TO_CART, REMOVE_FROM_CART } from '../actions/cart';
+import { store } from '..';
 
 interface CartState {
 	items: Record<string, CartItem>;
@@ -27,9 +28,6 @@ export function cartReducer(state = initialState, action: CartActionTypes): Cart
 					quantity: existingItem.quantity + 1,
 					sum: existingItem.sum + addedProduct.price
 				};
-
-				updatedOrNewCartItem.quantity++;
-				updatedOrNewCartItem.sum += addedProduct.price;
 			} else {
 				updatedOrNewCartItem = {
 					productId: addedProduct.id,
@@ -45,6 +43,31 @@ export function cartReducer(state = initialState, action: CartActionTypes): Cart
 				items: { ...state.items, [addedProduct.id]: updatedOrNewCartItem },
 				totalAmount: state.totalAmount + addedProduct.price
 			};
+		case REMOVE_FROM_CART:
+			const productId = action.payload;
+			const currentItem = state.items[productId];
+
+			let updatedItems = { ...state.items };
+
+			if (currentItem.quantity > 1) {
+				updatedItems = {
+					...updatedItems,
+					[productId]: {
+						...state.items[productId],
+						quantity: currentItem.quantity - 1,
+						sum: currentItem.sum - currentItem.productPrice
+					}
+				}
+			} else {
+				delete updatedItems[productId];
+			}
+
+			return {
+				...state,
+				items: updatedItems,
+				totalAmount: Math.abs(state.totalAmount - currentItem.productPrice)
+			};
+
 		default:
 			return state;
 	}
