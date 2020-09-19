@@ -1,7 +1,5 @@
-import Product from '../../models/product';
 import { CartItem } from '../../models/cart';
-import { CartActionTypes, ADD_TO_CART, REMOVE_FROM_CART } from '../actions/cart';
-import { store } from '..';
+import { CartActionTypes, ADD_TO_CART, REMOVE_FROM_CART, CLEAR_CART } from '../actions/cart';
 
 interface CartState {
 	items: Record<string, CartItem>;
@@ -13,7 +11,7 @@ const initialState: CartState = {
 	totalAmount: 0
 }
 
-export function cartReducer(state = initialState, action: CartActionTypes): CartState {
+export const cartReducer = (state = initialState, action: CartActionTypes): CartState => {
 	switch (action.type) {
 		case ADD_TO_CART:
 			const addedProduct = action.payload;
@@ -67,7 +65,8 @@ export function cartReducer(state = initialState, action: CartActionTypes): Cart
 				items: updatedItems,
 				totalAmount: Math.abs(state.totalAmount - currentItem.productPrice)
 			};
-
+		case CLEAR_CART:
+			return initialState;
 		default:
 			return state;
 	}

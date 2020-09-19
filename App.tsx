@@ -4,7 +4,7 @@ import { AppLoading } from 'expo';
 import { useFonts } from '@use-expo/font';
 
 import { store } from './store/index';
-import ShopNavigator from './navigation/ShopNavigator';
+import { AppContainer } from './navigation/ShopNavigator';
 
 export default function App() {
 	const [fontsLoaded] = useFonts({
@@ -18,7 +18,7 @@ export default function App() {
 
 	return (
 		<Provider store={store}>
-			<ShopNavigator></ShopNavigator>
+			<AppContainer></AppContainer>
 		</Provider>
 	);
 }

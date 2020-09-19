@@ -12,6 +12,6 @@ const initialState: ProductState = {
 	userProducts: PRODUCTS.filter(product => product.ownerId === 'u1')
 }
 
-export function productReducer(state = initialState, action: ProductActionTypes): ProductState {
+export const productReducer = (state = initialState, action: ProductActionTypes): ProductState => {
 	return state;
 }

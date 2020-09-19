@@ -10,7 +10,7 @@ import { ROUTES } from '../../navigation/routes';
 import * as cartActions from '../../store/actions/cart';
 import CustomHeaderButton from '../../components/UI/HeaderButton';
 
-const ProductsOverviewScreen: NavigationStackScreenComponent = props => {
+const ProductsOverviewScreen: NavigationStackScreenComponent = ({ navigation }) => {
 	const products = useSelector((state: RootState) => state.products.userProducts);
 	const dispatch = useDispatch();
 
@@ -19,7 +19,7 @@ const ProductsOverviewScreen: NavigationStackScreenComponent = props => {
 		price={itemData.item.price}
 		imageUrl={itemData.item.imageUrl}
 		onViewDetail={() => {
-			props.navigation.navigate(ROUTES.PrductDetail, {
+			navigation.navigate(ROUTES.PrductDetail, {
 				productId: itemData.item.id,
 				productTitle: itemData.item.title
 			})
@@ -28,9 +28,12 @@ const ProductsOverviewScreen: NavigationStackScreenComponent = props => {
 	} />;
 };
 
-ProductsOverviewScreen.navigationOptions = (navData: NavigationStackScreenProps) => {
+ProductsOverviewScreen.navigationOptions = (navData: any) => {
 	return {
 		headerTitle: 'All products',
+		headerLeft: () => <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+			<Item title='Cart' iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'} onPress={() => navData.navigation.toggleDrawer()} ></Item>
+		</HeaderButtons>,
 		headerRight: () => <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
 			<Item title='Cart' iconName={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'} onPress={() => navData.navigation.navigate(ROUTES.CartScreen)} ></Item>
 		</HeaderButtons>

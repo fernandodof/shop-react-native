@@ -1,11 +1,13 @@
-import { combineReducers, configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
+import { combineReducers, configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 
 import { productReducer } from './reducers/products';
-import { cartReducer } from "./reducers/cart";
+import { cartReducer } from './reducers/cart';
+import { ordersReducer } from './reducers/orders';
 
 const rootReducer = combineReducers({
 	products: productReducer,
-	cart: cartReducer
+	cart: cartReducer,
+	orders: ordersReducer
 });
 
 export const store = configureStore({
