@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
 import { Order } from '../../../models/order';
 
@@ -7,12 +7,19 @@ import Colors from './../../../constants/Colors';
 import { convertDate } from './../../../util/dataFuntions';
 
 const OrderItem = (props: Order) => {
+	const [showDetails, setShowDetails] = useState(false);
+
 	return <View style={styles.orderItem}>
 		<View style={styles.summary}>
 			<Text style={styles.totalAmount}>${props.amount.toFixed(2)}</Text>
 			<Text style={styles.date}>{convertDate(props.date)}</Text>
 		</View>
-		<Button title="Show details" color={Colors.primary} onPress={() => { }}></Button>
+		<Button title={showDetails ? 'Hide details' : 'Show details'} color={Colors.primary} onPress={() => setShowDetails(prevState => !prevState)}></Button>
+		{showDetails &&
+			<View style={styles.details}>
+				{props.items.map(item => <CartItem key={item.productId} {...item}></CartItem>)}
+			</View>
+		}
 	</View>;
 };
 
@@ -43,6 +50,9 @@ const styles = StyleSheet.create({
 		fontFamily: 'open-sans',
 		color: '#888'
 	},
+	details: {
+		width: '100%'
+	}
 });
 
 export default OrderItem;

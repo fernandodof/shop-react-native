@@ -6,7 +6,7 @@ import { CartItem as CartItemModel } from '../../../models/cart';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export interface CartItemProps extends CartItemModel {
-	onRemove: Function
+	onRemove?: Function
 };
 
 const CartItem = (props: CartItemProps) => {
@@ -16,10 +16,11 @@ const CartItem = (props: CartItemProps) => {
 			<Text style={styles.mainText}>{props.productTitle}</Text>
 		</View>
 		<View style={styles.itemData}>
-			<Text style={styles.mainText}>{props.sum.toFixed(2)}</Text>
-			<TouchableOpacity onPress={() => props.onRemove()} style={styles.deleteButton}>
+			<Text style={styles.mainText}>${props.sum.toFixed(2)}</Text>
+			{/* show remove buttom onRemove function was passed */}
+			{props.onRemove && <TouchableOpacity onPress={() => props.onRemove && props.onRemove()} style={styles.deleteButton}>
 				<Ionicons name={Platform.OS === 'android' ? 'md-trash' : 'ios-trash'} size={23} color="red"></Ionicons>
-			</TouchableOpacity>
+			</TouchableOpacity>}
 		</View>
 	</View>;
 };
