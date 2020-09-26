@@ -1,5 +1,7 @@
+import { cos } from 'react-native-reanimated';
 import { CartItem } from '../../models/cart';
 import { CartActionTypes, ADD_TO_CART, REMOVE_FROM_CART, CLEAR_CART } from '../actions/cart';
+import { DELETE_PRODUCT, DeleteProductAction } from '../actions/products';
 
 interface CartState {
 	items: Record<string, CartItem>;
@@ -11,7 +13,7 @@ const initialState: CartState = {
 	totalAmount: 0
 }
 
-export const cartReducer = (state = initialState, action: CartActionTypes): CartState => {
+export const cartReducer = (state = initialState, action: CartActionTypes | DeleteProductAction): CartState => {
 	switch (action.type) {
 		case ADD_TO_CART:
 			const addedProduct = action.payload;
@@ -41,7 +43,7 @@ export const cartReducer = (state = initialState, action: CartActionTypes): Cart
 				items: { ...state.items, [addedProduct.id]: updatedOrNewCartItem },
 				totalAmount: state.totalAmount + addedProduct.price
 			};
-		case REMOVE_FROM_CART:
+		case REMOVE_FROM_CART: {
 			const productId = action.payload;
 			const currentItem = state.items[productId];
 
@@ -64,6 +66,23 @@ export const cartReducer = (state = initialState, action: CartActionTypes): Cart
 				...state,
 				items: updatedItems,
 				totalAmount: Math.abs(state.totalAmount - currentItem.productPrice)
+			};
+			break;
+		}
+		case DELETE_PRODUCT:
+			const id = action.payload;
+			if (!state.items[id]) {
+				return state;
+			}
+
+			const updatedItems = { ...state.items };
+			const itemTotal = state.items[id].sum;
+			delete updatedItems[id];
+
+			return {
+				...state,
+				items: updatedItems,
+				totalAmount: state.totalAmount - itemTotal
 			};
 		case CLEAR_CART:
 			return initialState;

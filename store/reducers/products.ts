@@ -1,5 +1,5 @@
 import Product from '../../models/product';
-import { ProductActionTypes } from '../actions/products';
+import { DELETE_PRODUCT, ProductActionTypes } from '../actions/products';
 import PRODUCTS from '../../data/dummy-data';
 
 interface ProductState {
@@ -13,5 +13,13 @@ const initialState: ProductState = {
 }
 
 export const productReducer = (state = initialState, action: ProductActionTypes): ProductState => {
+	switch (action.type) {
+		case DELETE_PRODUCT:
+			return {
+				...state,
+				userProducts: state.userProducts.filter(product => product.id !== action.payload),
+				availableProducts: state.availableProducts.filter(product => product.id !== action.payload)
+			};
+	}
 	return state;
 }
