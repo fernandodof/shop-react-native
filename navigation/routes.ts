@@ -2,5 +2,6 @@ export enum ROUTES {
 	ProductsOverview = 'ProductsOverview',
 	PrductDetail = 'ProductDetail',
 	CartScreen = 'CartScreen',
-	OrdersScreen = 'OrdersScreen'
+	OrdersScreen = 'OrdersScreen',
+	UserProductsScreen = 'UserProductsScreen'
 }
