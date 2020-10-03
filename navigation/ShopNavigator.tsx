@@ -10,6 +10,7 @@ import ProductDetailScreen from '../screens/shop/product-detail-screen/ProductDe
 import UserProductScreen from '../screens/user/UserProductScreen';
 import CartScreen from '../screens/shop/CartScreen';
 import OrdersScreen from '../screens/shop/OrdersScreen';
+import EditProductScreen from '../screens/user/EditProductScreen';
 
 import Colors from '../constants/Colors';
 import { ROUTES } from './routes';
@@ -61,8 +62,9 @@ const OrdersNavigartor = createStackNavigator({
 	defaultNavigationOptions
 });
 
-const UserProductsNavigator = createStackNavigator({
-	[ROUTES.UserProductsScreen]: UserProductScreen
+const AdminNavigator = createStackNavigator({
+	[ROUTES.UserProductsScreen]: UserProductScreen,
+	[ROUTES.EditProductScreen]: EditProductScreen
 }, {
 	navigationOptions: {
 		drawerIcon: (drawerConfig: any) => (
@@ -79,7 +81,7 @@ const UserProductsNavigator = createStackNavigator({
 const ShopNavigator = createDrawerNavigator({
 	Products: ProductsNavigator,
 	Orders: OrdersNavigartor,
-	UserProducts: UserProductsNavigator
+	UserProducts: AdminNavigator
 }, {
 	contentOptions: {
 		activeTintColor: Colors.primary

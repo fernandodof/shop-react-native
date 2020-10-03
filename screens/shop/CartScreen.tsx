@@ -17,7 +17,7 @@ const CartScreen: NavigationStackScreenComponent = props => {
 
 	return <View style={styles.screen}>
 		<View style={styles.summary}>
-			<Text style={styles.summaryText}>Total: <Text style={styles.summaryTotal}>${cartTotalAmount.toFixed(2)}</Text></Text>
+			<Text style={styles.summaryText}>Total: <Text style={styles.summaryTotal}>${Math.round(+cartTotalAmount.toFixed(2) * 100) / 100}</Text></Text>
 			<Button title="Order now"
 				color={Colors.accent}
 				disabled={!cartItems.length}

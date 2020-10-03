@@ -3,5 +3,6 @@ export enum ROUTES {
 	PrductDetail = 'ProductDetail',
 	CartScreen = 'CartScreen',
 	OrdersScreen = 'OrdersScreen',
-	UserProductsScreen = 'UserProductsScreen'
+	UserProductsScreen = 'UserProductsScreen',
+	EditProductScreen = 'EditProductScreen'
 }
