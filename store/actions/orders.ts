@@ -1,4 +1,3 @@
-import { Order } from "../../models/order";
 import { CartItem } from "../../models/cart";
 
 export const ADD_ORDER = '[ORDER] Add';

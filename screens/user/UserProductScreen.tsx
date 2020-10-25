@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, Platform, Button } from 'react-native';
+import { Alert, FlatList, Platform, Button } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import { useSelector, useDispatch } from 'react-redux';
 import { NavigationStackScreenComponent } from 'react-navigation-stack';
@@ -17,6 +17,13 @@ const UserProductsScreen: NavigationStackScreenComponent = ({ navigation }) => {
 
 	const editProductHandler = (productId: string) => navigation.navigate(ROUTES.EditProductScreen, { productId });
 
+	const delteteHandler = (id: string) => {
+		Alert.alert('Are you sure?', 'Do you really want to delete this?', [
+			{ text: 'No', style: 'cancel' },
+			{ text: 'Yes', style: 'destructive', onPress: () => { dispatch(productActions.deleteProduct(id)) } }
+		]);
+	};
+
 	return <FlatList data={userProducts}
 		keyExtractor={item => item.id}
 		renderItem={itemData => <ProductItem
@@ -25,7 +32,7 @@ const UserProductsScreen: NavigationStackScreenComponent = ({ navigation }) => {
 			imageUrl={itemData.item.imageUrl}
 			onSelect={() => { editProductHandler(itemData.item.id) }} >
 			<Button color={Colors.primary} title="Edit" onPress={() => editProductHandler(itemData.item.id)}></Button>
-			<Button color={Colors.primary} title="Delete" onPress={() => dispatch(productActions.deleteProduct(itemData.item.id))}></Button>
+			<Button color={Colors.primary} title="Delete" onPress={() => delteteHandler(itemData.item.id)}></Button>
 		</ProductItem>}>
 	</FlatList>
 };
@@ -37,7 +44,7 @@ UserProductsScreen.navigationOptions = (navData: any) => {
 			<Item title='Cart' iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'} onPress={() => navData.navigation.toggleDrawer()} ></Item>
 		</HeaderButtons>,
 		headerRight: () => <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-			<Item title='Add' iconName={Platform.OS === 'android' ? 'md-create' : 'ios-create'} onPress={() => navData.navigation.navigate(ROUTES.EditProductScreen)} ></Item>
+			<Item title='Add' iconName={Platform.OS === 'android' ? 'md-add-circle' : 'ios-add-circle'} onPress={() => navData.navigation.navigate(ROUTES.EditProductScreen)} ></Item>
 		</HeaderButtons>
 	}
 };

@@ -1,25 +1,40 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { View, Text, TextInput, ScrollView, StyleSheet, Platform } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import { NavigationStackScreenComponent } from 'react-navigation-stack';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import CustomHeaderButton from '../../components/UI/HeaderButton';
+import * as productActions from '../../store/actions/products';
 import { RootState } from '../../store';
 
 export interface EdtiProductNavProps {
 	productId: string
 }
 
-const EditProductScreen: NavigationStackScreenComponent = ({ navigation }) => {
-	const productId = navigation.getParam('productId');
+const EditProductScreen: NavigationStackScreenComponent = (props) => {
+	const productId = props.navigation.getParam('productId');
 	const product = useSelector((state: RootState) => state.products.userProducts.find(prod => prod.id === productId))
+	const dispatch = useDispatch();
 
 	// TODO: improve this
 	const [title, setTitle] = useState(product?.title);
 	const [imageUrl, setImageUrl] = useState(product?.imageUrl);
 	const [price, setPrice] = useState('');
 	const [description, setDescription] = useState(product?.description);
+
+	const submitHandler = useCallback(() => {
+		if (product) {
+			dispatch(productActions.updateProduct(productId, title!, description!, imageUrl!));
+		} else {
+			dispatch(productActions.createProduct(title!, description!, imageUrl!, +price!))
+		}
+		props.navigation.goBack();
+	}, [dispatch, productId, title, description, imageUrl, price]);
+
+	useEffect(() => {
+		props.navigation.setParams({ submit: submitHandler });
+	}, [submitHandler]);
 
 	return <ScrollView>
 		<View style={styles.form}>
@@ -45,14 +60,17 @@ const EditProductScreen: NavigationStackScreenComponent = ({ navigation }) => {
 	</ScrollView>;
 };
 
-EditProductScreen.navigationOptions = ({ navigation }: any) => ({
-	headerTitle: navigation.getParam('productId') ? 'Edit Product' : 'Add Product',
-	headerRight: () => <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-		<Item title='Add' iconName={Platform.OS === 'android' ? 'md-checkmark' : 'ios-checkmark'}
-			onPress={() => { }} >
-		</Item>
-	</HeaderButtons>
-})
+EditProductScreen.navigationOptions = ({ navigation }: any) => {
+	const submitFn = navigation.getParam('submit');
+	return {
+		headerTitle: navigation.getParam('productId') ? 'Edit Product' : 'Add Product',
+		headerRight: () => <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+			<Item title='Add' iconName={Platform.OS === 'android' ? 'md-checkmark' : 'ios-checkmark'}
+				onPress={submitFn} >
+			</Item>
+		</HeaderButtons>
+	}
+}
 
 const styles = StyleSheet.create({
 	form: {

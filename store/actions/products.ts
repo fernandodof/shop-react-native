@@ -1,11 +1,17 @@
 import Product from "../../models/product";
 
-export const ADD_PRODUCT = '[PRODUCT] Add';
+export const CREATE_PRODUCT = '[PRODUCT] Create';
+export const UPDATE_PRODUCT = '[PRODUCT] Update';
 export const DELETE_PRODUCT = '[PRODUCT] DELETE';
 
-interface AddProductAction {
-	type: typeof ADD_PRODUCT;
-	payload: Product
+interface CreateProductAction {
+	type: typeof CREATE_PRODUCT;
+	payload: Partial<Product>
+}
+
+interface UpdateProductAction {
+	type: typeof UPDATE_PRODUCT;
+	payload: Partial<Product>
 }
 
 export interface DeleteProductAction {
@@ -20,4 +26,28 @@ export const deleteProduct = (id: string): DeleteProductAction => {
 	};
 };
 
-export type ProductActionTypes = AddProductAction | DeleteProductAction;
+export const createProduct = (title: string, description: string, imageUrl: string, price: number): CreateProductAction => {
+	return {
+		type: CREATE_PRODUCT,
+		payload: {
+			title,
+			description,
+			imageUrl,
+			price
+		}
+	}
+};
+
+export const updateProduct = (id: string, title: string, description: string, imageUrl: string): UpdateProductAction => {
+	return {
+		type: UPDATE_PRODUCT,
+		payload: {
+			id,
+			title,
+			description,
+			imageUrl
+		}
+	}
+};
+
+export type ProductActionTypes = CreateProductAction | UpdateProductAction | DeleteProductAction;
