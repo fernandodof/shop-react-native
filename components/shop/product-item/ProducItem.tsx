@@ -9,13 +9,14 @@ import {
 	Platform
 } from 'react-native';
 
+import Card from '../../UI/Card';
 import { ProductItemProps } from './productDetailItem.model';
 
 const ProductItem = (props: ProductItemProps) => {
 	const TouchableComp: any = Platform.OS === 'android' && Platform.Version ? TouchableNativeFeedback : TouchableOpacity;
 
 	return (
-		<View style={styles.product}>
+		<Card style={styles.product}>
 			<View style={styles.touchable}>
 				<TouchableComp onPress={() => props.onSelect && props.onSelect()} useForeground>
 					<View>
@@ -32,25 +33,17 @@ const ProductItem = (props: ProductItemProps) => {
 					</View>
 				</TouchableComp>
 			</View>
-		</View>
+		</Card>
 	);
 };
 
 const styles = StyleSheet.create({
 	product: {
-		shadowColor: 'black',
-		shadowOpacity: 0.26,
-		shadowOffset: { width: 0, height: 2 },
-		shadowRadius: 8,
-		elevation: 10,
-		borderRadius: 10,
-		backgroundColor: 'white',
 		height: 300,
 		margin: 20
 	},
 	touchable: {
-		overflow: 'hidden',
-		borderRadius: 10
+		overflow: 'hidden'
 	},
 	imageContainer: {
 		width: '100%',

@@ -2,6 +2,7 @@ import * as React from 'react';
 import { View, Text, FlatList, Button, StyleSheet } from 'react-native';
 import { useSelector, useDispatch, batch } from 'react-redux';
 
+import Card from '../../components/UI/Card';
 import { RootState } from '../../store';
 import Colors from '../../constants/Colors';
 import { NavigationStackScreenComponent } from 'react-navigation-stack';
@@ -16,7 +17,7 @@ const CartScreen: NavigationStackScreenComponent = props => {
 	const dispatch = useDispatch();
 
 	return <View style={styles.screen}>
-		<View style={styles.summary}>
+		<Card style={styles.summary}>
 			<Text style={styles.summaryText}>Total: <Text style={styles.summaryTotal}>${Math.round(+cartTotalAmount.toFixed(2) * 100) / 100}</Text></Text>
 			<Button title="Order now"
 				color={Colors.accent}
@@ -28,7 +29,7 @@ const CartScreen: NavigationStackScreenComponent = props => {
 					})
 				}}>
 			</Button>
-		</View>
+		</Card>
 		<FlatList data={cartItems}
 			keyExtractor={item => item.productId}
 			renderItem={itemData => <CartItem {...{ ...itemData.item, onRemove: () => { dispatch(cartActions.removeFromCart(itemData.item.productId)) } }} ></CartItem>}>
@@ -49,14 +50,8 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		alignItems: 'center',
 		justifyContent: 'space-between',
-		padding: 10,
-		shadowOpacity: 0.26,
-		shadowOffset: { width: 0, height: 2 },
-		shadowRadius: 8,
-		elevation: 10,
-		backgroundColor: 'white',
-		marginBottom: 10
-
+		marginBottom: 10,
+		padding: 10
 	},
 	summaryText: {
 		fontFamily: 'open-sans-bold',
